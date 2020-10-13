@@ -2,9 +2,22 @@ import { Match, User } from '../index';
 import { ApolloError } from 'apollo-server';
 
 export const MatchResolvers = {
-    // Query: { 
-
-    // },
+    Query: { 
+        getUserMatches: async (_: any, args: { userId: number }) => {
+            const { userId } = args;
+            console.log(userId)
+            try {
+                const matches = await Match
+                    .createQueryBuilder("match")
+                    .leftJoin("match.users", "user")
+                    .where("user.id = :userId", { userId })
+                    .getMany()
+                return matches;
+            } catch(error) {
+                throw new ApolloError(error);
+            }
+        }
+    },
     Mutation: {
         createMatch: async (_: any, args: { 
             player1Id: number,
@@ -37,8 +50,5 @@ export const MatchResolvers = {
                 throw new ApolloError(error);
             }
         }
-
-    }
-
     }
 }
