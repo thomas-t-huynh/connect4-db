@@ -5,7 +5,6 @@ export const MatchResolvers = {
     Query: { 
         getUserMatches: async (_: any, args: { userId: number }) => {
             const { userId } = args;
-            console.log(userId)
             try {
                 const matches = await Match
                     .createQueryBuilder("match")

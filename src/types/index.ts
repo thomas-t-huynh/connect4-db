@@ -1,14 +1,19 @@
-import { userResolvers } from '../schemas';
-import { ResolversObject } from './index';
-
 type ResolversObject<TObject> = TObject;
 
+type DataSources = {
+  UserService: {
+    getUser(args: any): any;
+    getAllUsers(): any;
+  }
+};
+
 type QueryResolver<context=any> =  {
-  user?: (_: context, schema: {[key:string]:context}, data: {[key:string]:context}) => any;
+  getUser?: (_: context, args: {[key:string]:context}, dataSources: { dataSource: DataSources }) => any;
+  getAllUsers?: (_: context, dataSources: { dataSource: DataSources }) => any;
 }
 
 type MutationResolver<T> = {
-  addUser?: (_: any, schema: ResolversObject, data: {}) => any;
+  addUser?: (_: any, schema: ResolversObject<T>, data: {}) => any;
 }
 
 type Mutation = {
@@ -26,13 +31,11 @@ export type Resolvers = ResolversObject<{
 
 const userResolver: Resolvers = {
   Query: {
-    user: (_, { user }, { dataSource }) => user(dataSource)
+    getUser: (_, args, { dataSource }) => dataSource.UserService.getUser(args),
+    getAllUsers: (_, { dataSource }) => dataSource.UserService.getAllUsers()
   }
 
 }
-
-console.log(userResolver);
-
 
 export interface UserArgs {
   username: string;
