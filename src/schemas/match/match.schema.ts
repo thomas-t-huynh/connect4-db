@@ -1,4 +1,4 @@
-import { gql } from "apollo-server";
+import { gql, IResolvers } from "apollo-server";
 
 export const MatchSchema = gql`
   extend type Query {
@@ -18,6 +18,12 @@ export const MatchSchema = gql`
   }
 `;
 
-// export const userResolvers: Resolvers = {
-  
-// }
+export const matchResolvers: IResolvers = {
+  Query: {
+    getUserMatches: (_, args, { dataSources }) => dataSources.matchService.getUserMatches(args),
+  },
+  Mutation: {
+    createMatch: (_, args, { dataSources }) => dataSources.matchService.createMatch(args),
+    setMatchWinner: (_, args, { dataSources }) => dataSources.matchService.setMatchWinner(args),
+  }
+}

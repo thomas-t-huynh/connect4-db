@@ -1,41 +1,42 @@
-type ResolversObject<TObject> = TObject;
+// import { DataSource } from 'apollo-datasource';
+// import { IResolvers } from 'apollo-server';
 
-type DataSources = {
-  UserService: {
-    getUser(args: any): any;
-    getAllUsers(): any;
-  }
-};
+// type ResolversObject<TObject> = TObject;
 
-type QueryResolver<context=any> =  {
-  getUser?: (_: context, args: {[key:string]:context}, dataSources: { dataSource: DataSources }) => any;
-  getAllUsers?: (_: context, dataSources: { dataSource: DataSources }) => any;
-}
+// interface DataSources {
+//   userService: {
+//     getUser(args: any): any;
+//     getAllUsers(): any;
+//   }
+// };
 
-type MutationResolver<T> = {
-  addUser?: (_: any, schema: ResolversObject<T>, data: {}) => any;
-}
+// interface IQuery {
+//   getUser?: (_: any, args: any, dataSource: { dataSources: DataSources }) => any;
+//   getAllUsers?: (_: any, dataSource: { dataSources: DataSources }) => any;
+// }
 
-type Mutation = {
-  name: string;
-  height: number;
-}
 
-export type Resolvers = ResolversObject<{
-  Query?: QueryResolver;
-  Mutation?: MutationResolver<Mutation>;
-}>;
+// type MutationResolver = {
+//   addUser?: (_: any, schema: ResolversObject<any>, data: {}) => any;
+// }
+
+// type Mutation = {
+//   name: string;
+//   height: number;
+// }
+
+// export interface Resolvers extends IResolvers {
+//   Query: IQuery;
+// };
 
 // you can also access types like objects with bracket notation.
 // <Scalar["String"]>
 
-const userResolver: Resolvers = {
-  Query: {
-    getUser: (_, args, { dataSource }) => dataSource.UserService.getUser(args),
-    getAllUsers: (_, { dataSource }) => dataSource.UserService.getAllUsers()
-  }
-
-}
+// export const userResolver: Resolvers = {
+//   Query: {
+//     getAllUsers: (_, { dataSources }) => dataSources.userService.getAllUsers()
+//   }
+// }
 
 export interface UserArgs {
   username: string;
